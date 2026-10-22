@@ -2,633 +2,357 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>2026 東京秋序：金黃與琥珀色的私語</title>
-    <!-- Tailwind CSS CDN -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="東京秋序">
+    <link rel="apple-touch-icon" href="https://img.icons8.com/color/180/tokyo-tower.png">
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Font (Noto Sans TC & Serif) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;900&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['"Noto Sans TC"', 'sans-serif'],
-                        serif: ['"Noto Serif TC"', 'serif'],
-                    },
-                    colors: {
-                        maple: {
-                            50: '#fef2f2',
-                            100: '#fee2e2',
-                            600: '#dc2626',
-                            800: '#991b1b',
-                            900: '#7f1d1d'
-                        },
-                        ginkgo: {
-                            50: '#fffbe3',
-                            100: '#fef9c3',
-                            500: '#eab308',
-                            600: '#ca8a04',
-                            700: '#a16207'
-                        },
-                        amberbg: '#fdfbf7',
-                        charcoal: '#1f2937'
-                    }
-                }
-            }
-        }
-    </script>
+    
     <style>
-        body {
-            background-color: #f7f4ef;
-            -webkit-tap-highlight-color: transparent;
-            font-family: 'Noto Sans TC', sans-serif;
-            color: #2b2b2b;
-        }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .line-through-checked { text-decoration: line-through; opacity: 0.55; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #F8F9FA; -webkit-tap-highlight-color: transparent; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .tab-active { color: #BC4749; border-bottom: 3px solid #BC4749; font-weight: 700; }
     </style>
 </head>
-<body class="max-w-md mx-auto min-h-screen bg-amberbg shadow-2xl relative border-x border-amber-200/60 pb-28">
+<body class="bg-slate-50 text-slate-800 pb-20">
 
-    <!-- Header / Navbar -->
-    <header class="sticky top-0 z-30 bg-gradient-to-r from-maple-900 via-maple-800 to-maple-900 text-amber-50 p-4 shadow-lg pt-9">
-        <div class="flex items-center justify-between">
+    <!-- 頂部 Header -->
+    <header class="bg-gradient-to-r from-amber-700 via-orange-600 to-red-700 text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-md mx-auto px-4 py-3 flex justify-between items-center">
             <div>
-                <span class="text-[11px] tracking-widest text-ginkgo-500 font-semibold uppercase">2026.11.23 - 11.30 自由行</span>
-                <h1 class="text-lg font-serif font-black tracking-wide flex items-center gap-2 text-amber-100">
-                    <i class="fa-solid fa-map-location-dot text-ginkgo-500"></i> 東京秋序：金黃與琥珀色
-                </h1>
+                <h1 class="text-lg font-bold tracking-wide">2026 東京秋序 🍁</h1>
+                <p class="text-xs text-amber-100">11/23 - 11/30 (8 Days) • 星宇航空</p>
             </div>
-            <button onclick="resetCheckmarks()" class="text-[11px] bg-maple-800/80 hover:bg-maple-700 text-amber-200 px-2.5 py-1 rounded-lg border border-maple-600/40 transition flex items-center gap-1">
-                <i class="fa-solid fa-rotate-left"></i> 重置
+            <button id="searchBtn" class="p-2 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 transition">
+                <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </div>
 
-        <!-- Search Bar -->
-        <div class="mt-3 relative">
-            <input type="text" id="searchInput" oninput="handleSearch()" placeholder="搜尋景點、美食、地鐵、時刻表..." 
-                   class="w-full pl-9 pr-4 py-2 bg-white/10 text-white placeholder-amber-200/70 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-ginkgo-500 border border-white/20">
-            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-amber-200/70 text-xs"></i>
+        <div id="searchBar" class="hidden max-w-md mx-auto px-4 pb-3">
+            <input type="text" id="searchInput" placeholder="搜尋景點、美食、歷史介紹..." 
+                   class="w-full text-sm px-3 py-2 rounded-lg text-slate-800 focus:outline-none shadow-inner">
         </div>
+
+        <nav class="bg-white text-slate-600 shadow-inner">
+            <div class="max-w-md mx-auto flex overflow-x-auto hide-scrollbar text-xs font-medium border-b" id="dayTabs">
+                <button class="tab-btn tab-active flex-none px-4 py-2.5 text-center" onclick="switchDay('all')">全覽</button>
+                <button class="tab-btn flex-none px-4 py-2.5 text-center" onclick="switchDay('d1')">D1 (11/23)</button>
+                <button class="tab-btn flex-none px-4 py-2.5 text-center" onclick="switchDay('d2')">D2 (11/24)</button>
+                <button class="tab-btn flex-none px-4 py-2.5 text-center" onclick="switchDay('d3')">D3 (11/25)</button>
+                <button class="tab-btn flex-none px-4 py-2.5 text-center" onclick="switchDay('d4')">D4 (11/26)</button>
+                <button class="tab-btn flex-none px-4 py-2.5 text-center" onclick="switchDay('d5')">D5 (11/27)</button>
+                <button class="tab-btn flex-none px-4 py-2.5 text-center" onclick="switchDay('d6')">D6 (11/28)</button>
+                <button class="tab-btn flex-none px-4 py-2.5 text-center" onclick="switchDay('d7')">D7 (11/29)</button>
+                <button class="tab-btn flex-none px-4 py-2.5 text-center" onclick="switchDay('d8')">D8 (11/30)</button>
+            </div>
+        </nav>
     </header>
 
-    <!-- Sticky Day Navigation Tabs -->
-    <nav class="sticky top-[106px] z-20 bg-amberbg/95 backdrop-blur-md border-b border-amber-200/80 shadow-sm">
-        <div class="flex overflow-x-auto no-scrollbar px-2 py-2 gap-1.5 text-xs font-medium" id="dayTabs">
-            <!-- Tabs dynamically rendered -->
-        </div>
-    </nav>
+    <!-- 主內容區 -->
+    <main class="max-w-md mx-auto p-4 space-y-6" id="itineraryContent">
 
-    <!-- Main Content Area -->
-    <main class="p-3.5 space-y-3.5" id="contentArea">
-        <!-- Dynamic Content injected by JS -->
+        <!-- Day 1 -->
+        <section class="day-card" data-day="d1">
+            <div class="flex items-center justify-between bg-amber-100 border-l-4 border-amber-600 p-3 rounded-r-lg shadow-sm mb-4">
+                <div>
+                    <span class="text-xs font-bold text-amber-800 block">DAY 1 • 11/23 (週一)</span>
+                    <h2 class="text-base font-bold text-slate-800">抵達東京與首日交通</h2>
+                </div>
+                <span class="text-xs bg-amber-600 text-white px-2 py-1 rounded">星宇 JX800</span>
+            </div>
+
+            <div class="space-y-3">
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800">✈️ 航班資訊</span>
+                    <h3 class="font-bold text-sm mt-1">星宇航空 JX800</h3>
+                    <p class="text-xs text-slate-600 mt-1">08:25 台北 (TPE) ➡ 12:35 東京成田 (NRT) T2</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-purple-100 text-purple-800">🚌 成田機場至新宿交通</span>
+                    <p class="text-xs text-slate-700 mt-1 font-medium">1. 利木津巴士 (3,600日幣)</p>
+                    <p class="text-xs text-slate-600">第二航廈1F入境大廳17號月台乘車。推薦班次：13:35 直達 (15:40到)、14:40 直達 (16:35到)。另有 13:20、13:50 至京王廣場飯店。</p>
+                    <p class="text-xs text-slate-700 mt-2 font-medium">2. 成田特快 N'EX (來回5000円 / 單程3330円)</p>
+                    <p class="text-xs text-slate-600">B1乘車，抵達後走南口地下道至華盛頓酒店。班次：13:17、13:48、14:23、14:49。</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">🌆 夕陽夜景與深度介紹</span>
+                    <h3 class="font-bold text-sm mt-1">東京都廳展望室 (17:00 - 18:30)</h3>
+                    <p class="text-xs text-slate-600 mt-1"><strong>景點特色：</strong>從 45 樓高空俯瞰新宿繁華夜景（免費參觀）。順著指標往「展望室専用エレベーター」搭乘。南展望室第1及第3個星期二休息。</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>晚餐建議：</strong>19:00 - 20:30 新宿西口附近晚餐（思出橫丁串燒小巷或百貨公司餐廳）。</p>
+                    <a href="https://maps.google.com/?q=東京都廳展望室" target="_blank" class="inline-flex items-center gap-1 text-xs text-blue-600 mt-2 font-medium"><i class="fa-solid fa-location-dot"></i> 開啟地圖導航</a>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm bg-slate-50">
+                    <div class="text-xs font-bold text-slate-500 mb-1">🏨 住宿資訊</div>
+                    <div class="text-sm font-bold">新宿華盛頓酒店 (Shinjuku Washington Hotel)</div>
+                    <div class="text-xs text-slate-500">〒160-8336 東京都新宿区西新宿3-2-9 • TEL: 03-3343-3111</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 2 -->
+        <section class="day-card" data-day="d2">
+            <div class="flex items-center justify-between bg-amber-100 border-l-4 border-amber-600 p-3 rounded-r-lg shadow-sm mb-4">
+                <div>
+                    <span class="text-xs font-bold text-amber-800 block">DAY 2 • 11/24 (週二)</span>
+                    <h2 class="text-base font-bold text-slate-800">東大銀杏、上野紅楓與丸之內點燈</h2>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-yellow-100 text-yellow-800">🍂 第一站 (3-3.5hr)</span>
+                    <h3 class="font-bold text-sm mt-1">東京大學（銀杏巡禮）</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">交通：都廳前站(大江戶線) ➡ 東大前站(南北線)約24分</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>景點介紹：</strong>漫步日本第一學府，欣賞金黃銀杏絕景。路線：彌生校區農正門 ➡ 工學院大銀杏 ➡ 安田講堂金色大道 ➡ 赤門。</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>食堂體驗與美食：</strong>安田講堂中央食堂體驗學生食堂氛圍，建議避開 11:30~13:30 尖峰時間。必吃招牌「赤門拉麵 (Akamon Ramen)」，門口有櫥窗展示菜色，需於自動販賣機購買食券後分區領餐。</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-red-100 text-red-800">🍁 第二站 (3.5-4hr)</span>
+                    <h3 class="font-bold text-sm mt-1">上野恩賜公園與阿美橫丁</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">交通：赤門步行20分至上野公園，或本鄉三丁目站搭大江戶線至上野御徒町站</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>上野公園 (14:30 - 16:00)：</strong> 重點欣賞不忍池畔紅楓倒影與水岸秋色。</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>阿美橫丁 (16:00 - 18:30)：</strong> 充滿活力的下町商店街，採買藥妝、二木菓子伴手禮並在此享用平價美食晚餐。</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800">✨ 第三站 (1.5-2hr)</span>
+                    <h3 class="font-bold text-sm mt-1">丸之內仲通與 KITTE 夜景</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">交通：JR上野站搭山手線至JR東京站約15分</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>KITTE 百貨 6F 露天花園 (19:00 - 19:40)：</strong> 俯瞰東京車站百年紅磚建築點燈的全景視角。</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>丸之內仲通 (19:40 - 20:30)：</strong> 漫步高雅的香檳金 LED 燈海大道。</p>
+                    <p class="text-xs text-slate-500 mt-1">回程：JR東京站搭中央線(快速)橘色標誌返回JR新宿站南口（約31分）。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 3 -->
+        <section class="day-card" data-day="d3">
+            <div class="flex items-center justify-between bg-amber-100 border-l-4 border-amber-600 p-3 rounded-r-lg shadow-sm mb-4">
+                <div>
+                    <span class="text-xs font-bold text-amber-800 block">DAY 3 • 11/25 (週三)</span>
+                    <h2 class="text-base font-bold text-slate-800">小網神社・淺草寺・晴空塔一日遊</h2>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">⛩️ 第一站：人形町・小網神社 (1.5hr)</span>
+                    <p class="text-xs text-slate-500 mt-0.5">車程：都營新宿線至馬喰橫山，轉都營淺草線至人形町站（約25分）</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>小網神社深度介紹：</strong>東京都內極具盛名的「強運厄除」與「財運提升」神社。二戰期間帶著此處御守參戰的士兵皆平安歸來；東京大空襲中本殿亦奇蹟未受波及。參拜體驗包含在「錢洗弁財天」用竹籃將硬幣以神水清洗放回錢包，以及購買以真實蠶絲包裹的「麻繭御守」。參拜免費，社務所 09:00 - 17:00。</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>順遊景點水天宮：</strong>距離步行約7分鐘，東京求安產、求子與祈求水難平安的聖地，建築具現代日式工藝美感。</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>美食點心：</strong>柳屋（東京鯛魚燒三大名店之一）、重盛永壽堂（百年純手工人形燒）。</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-red-100 text-red-800">🏮 第二站：淺草寺・仲見世通・雷門 (2.5-3hr)</span>
+                    <p class="text-xs text-slate-500 mt-0.5">車程：人形町搭都營淺草線直達淺草站（約7分）</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>淺草寺深度介紹：</strong>東京都內最古老寺廟（建於公元 628 年），地標「雷門」大紅提燈為必拍景點。長達 250 公尺的仲見世通商店街熱鬧非凡。可在正殿前香爐攬香洗禮、求籤，參觀五重塔與寶藏門。免費參拜，本堂 06:30 - 17:00。</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>順遊隅田公園：</strong>沿隅田川步道欣賞水岸風光，經 Sumida River Walk 天橋可一路步行至晴空塔。</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>美食推薦：</strong>浅草今半（百年黑毛和牛壽喜燒/牛丼）、浅草花月堂（巨無霸菠蘿麵包）、淺草メンチ（多汁炸肉餅）、絹豆腐布丁。</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-indigo-100 text-indigo-800">🗼 第三站：東京晴空塔 (3-4hr)</span>
+                    <p class="text-xs text-slate-500 mt-0.5">交通：沿水岸天橋步行約15-20分，或電車3分抵達押上站</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>晴空塔展望台介紹：</strong>高 634 公尺的世界最高塔式建築。設有 350m 天望甲板與 450m 天望回廊，360度俯瞰東京全景並遠眺富士山。門票：350m 約 2,100~2,300 日圓；套票約 3,100~3,400 日圓。營業至 21:00。</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>順遊與美食：</strong>墨田水族館（最大室內開放企鵝水槽）、Tokyo Solamachi 商圈（寶可夢中心、吉卜力）。美食推薦：利久牛舌、六厘舍濃郁沾麵、祇園辻利抹茶聖代。</p>
+                    <p class="text-xs text-slate-500 mt-1">返程：押上站搭半藏門線至神保町，轉都營新宿線直達新宿（約30分）。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 4 -->
+        <section class="day-card" data-day="d4">
+            <div class="flex items-center justify-between bg-amber-100 border-l-4 border-amber-600 p-3 rounded-r-lg shadow-sm mb-4">
+                <div>
+                    <span class="text-xs font-bold text-amber-800 block">DAY 4 • 11/26 (週四)</span>
+                    <h2 class="text-base font-bold text-slate-800">御苑森林、鐵塔與六本木雙夜景</h2>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-green-100 text-green-800">🌳 第一站：新宿御苑 (2hr)</span>
+                    <p class="text-xs text-slate-500 mt-0.5">交通：飯店步行約15-20分至新宿門。門票：500日圓</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>深度介紹：</strong>11月底為新宿御苑最美季節，擁有廣大壯觀的紅葉與銀杏庭園。探訪建築與自然融合的「星巴克新宿御苑店」，享受森林咖啡時光。</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-red-100 text-red-800">🗼 第二站：增上寺與東京鐵塔 (1.5hr)</span>
+                    <p class="text-xs text-slate-500 mt-0.5">交通：新宿站搭大江戶線直達大門站（約40分）</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>深度介紹：</strong>歷史悠久的古剎增上寺與遠處點燈的東京鐵塔同框，捕捉經典的古今對比夕景畫面。</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-purple-100 text-purple-800">🌃 第三站：六本木雙夜景 (2.5-3hr)</span>
+                    <p class="text-xs text-slate-500 mt-0.5">交通：大門站搭大江戶線至六本木站（約10分）</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>六本木之丘展望台 (Sky Deck)：</strong>強烈建議購買含露天展望台 Sky Deck 的門票（約 NT$370），無玻璃遮擋的 360 度頂樓視野，拍攝東京鐵塔不反光（上面風大需保暖）。</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>櫸坂 (Keyakizaka) 點燈：</strong>浪漫藍白色 LED 燈海襯托紅鐵塔。</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>美食推薦：</strong>入鹿 TOKYO 拉麵（特製柚子鹽味與牛肝菌醬油拉麵）。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 5 -->
+        <section class="day-card" data-day="d5">
+            <div class="flex items-center justify-between bg-amber-100 border-l-4 border-amber-600 p-3 rounded-r-lg shadow-sm mb-4">
+                <div>
+                    <span class="text-xs font-bold text-amber-800 block">DAY 5 • 11/27 (週五)</span>
+                    <h2 class="text-base font-bold text-slate-800">湘南光影：鎌倉古都與江之島海色漫步</h2>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800">⛩️ 第一站：鎌倉站與鶴岡八幡宮 (3hr)</span>
+                    <p class="text-xs text-slate-500 mt-0.5">交通：新宿搭 JR 湘南新宿線直達鎌倉，或搭小田急至藤澤轉江之電</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>景點與歷史介紹：</strong>鶴岡八幡宮建於 1191 年，供奉皇室祖神與戰神，為東日本信仰中心，地位僅次於伊勢神宮。漫步小町通商店街與若宮大路櫻花大道。</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>小町通美食：</strong>豊島屋鴿子餅乾、Giraffa 咖哩麵包、鎌倉茶々抹茶霜淇淋、Caraway 咖哩飯、半月燒。</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">🗿 第二站：長谷站與古剎巡禮 (2hr)</span>
+                    <p class="text-xs text-slate-600 mt-1"><strong>高德院鎌倉大佛 (門票300円 / 胎內50円)：</strong>源自12世紀鎌倉時代，曾坐落於古老大殿中，15世紀末室町時代大海嘯摧毀建築後，國寶大佛屹立至今。</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>鎌倉長谷寺 (門票400円)：</strong>「見晴台」可俯瞰湘南海岸；探訪弁財天洞窟十六童子、牡蠣繪馬與治癒地藏。</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-indigo-100 text-indigo-800">🌅 第三站：鎌倉高校前 ➔ 江之島夕景 (3.5hr)</span>
+                    <p class="text-xs text-slate-600 mt-1"><strong>鎌倉高校前 (30min)：</strong>灌籃高手經典平交道拍照聖地。</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>江之島景點介紹：</strong>穿過青銅鳥居與弁財天仲見世通，搭電扶梯 (360円) 至頂端。參拜中津宮（水占卜）、走訪龍戀之鐘、江之島岩屋洞穴寺廟 (500円)。海蠟燭展望燈塔與金科花園夜間點燈入園 500円。</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>美食與海鮮丼：</strong>あさひ本店現烤章魚大蝦仙貝、中村屋女夫饅頭。晚餐推薦「江ノ島小屋」連獲8年金賞海鮮丼。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 6 -->
+        <section class="day-card" data-day="d6">
+            <div class="flex items-center justify-between bg-amber-100 border-l-4 border-amber-600 p-3 rounded-r-lg shadow-sm mb-4">
+                <div>
+                    <span class="text-xs font-bold text-amber-800 block">DAY 6 • 11/28 (週六)</span>
+                    <h2 class="text-base font-bold text-slate-800">銀杏、神宮森林、豪德寺招財貓與澀谷</h2>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-yellow-100 text-yellow-800">🟡 第一站：明治神宮外苑 (1.5hr)</span>
+                    <p class="text-xs text-slate-500 mt-0.5">交通：都廳前站搭大江戶線至青山一丁目站（約10分）</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>深度介紹：</strong>整齊劃一的銀杏並木大道與聖德紀念繪畫館構成完美軸線，順遊隈研吾設計的新國立競技場。繪畫館入場 500日圓。</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">🐱 第二站：豪德寺 (1.5hr)</span>
+                    <p class="text-xs text-slate-500 mt-0.5">交通：青山一丁目搭半藏門線至表參道，轉千代田線/小田急直通至豪德寺站</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>深度介紹：</strong>招財貓發源地古剎。招福殿旁擺滿上千隻大小不一的招財貓海，莊嚴的三重塔木造建築充滿禪意。免費參拜，招財貓販售處約 16:30 關門。</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-pink-100 text-pink-800">☕ 第三站：目黑川冬之櫻點燈 或 澀谷 (3hr)</span>
+                    <p class="text-xs text-slate-600 mt-1"><strong>目黑川路線：</strong>沿岸粉紅 LED 「冬之櫻」點燈浪漫夜景，造訪隈研吾設計的「星巴克臻選®東京烘焙工坊」欣賞巨型紅銅烘豆機。晚餐：AFURI 柚子鹽拉麵。</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>澀谷路線：</strong> SHIBUYA SKY 高空展望台、宮下公園、澀谷十字路口。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 7 -->
+        <section class="day-card" data-day="d7">
+            <div class="flex items-center justify-between bg-amber-100 border-l-4 border-amber-600 p-3 rounded-r-lg shadow-sm mb-4">
+                <div>
+                    <span class="text-xs font-bold text-amber-800 block">DAY 7 • 11/29 (週日)</span>
+                    <h2 class="text-base font-bold text-slate-800">小江戶川越歷史散策</h2>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-purple-100 text-purple-800">🏯 第一站：喜多院 (1.5hr)</span>
+                    <p class="text-xs text-slate-600 mt-1"><strong>深度介紹：</strong>川越最具代表性古剎，深受德川幕府尊崇。保存全日本唯一從江戶城遷築而來的「德川家光誕生間」與「阿江與化妝間」，並有五百羅漢石雕群與慈惠堂。</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-pink-100 text-pink-800">🎣 第二站：川越冰川神社 (1.5hr)</span>
+                    <p class="text-xs text-slate-600 mt-1"><strong>深度介紹：</strong>1500年歷史結緣神社。必體驗「釣鯛魚神籤」、走過繪馬隧道、於小川進行「人形流」除穢儀式，參拜 15 公尺高木造大鳥居與御神木。</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-orange-100 text-orange-800">🍡 第三站：藏造老街與菓子屋橫丁</span>
+                    <p class="text-xs text-slate-600 mt-1"><strong>藏造老街與時之鐘：</strong>黑漆牆江戶防煙建築群，順遊星巴克川越鐘樓店日式庭園。美食：小川菊200年鰻魚飯、小江戶 OHANA 玉子燒/親子丼、翠扇亭地瓜飯糰、COEDO HACHI 烤地瓜布蕾、川越布丁。</p>
+                    <p class="text-xs text-slate-600 mt-1"><strong>菓子屋橫丁：</strong>昭和懷舊零食巷，聚集 95 公分黑糖大棒與吉伊卡哇本舖。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 8 -->
+        <section class="day-card" data-day="d8">
+            <div class="flex items-center justify-between bg-amber-100 border-l-4 border-amber-600 p-3 rounded-r-lg shadow-sm mb-4">
+                <div>
+                    <span class="text-xs font-bold text-amber-800 block">DAY 8 • 11/30 (週一)</span>
+                    <h2 class="text-base font-bold text-slate-800">新宿採買與返國</h2>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-800">🛍️ 早上行程</span>
+                    <p class="text-xs text-slate-600 mt-1">辦理退房與行李寄放，新宿南口/西口百貨公司與藥妝店進行最後補貨。</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800">✈️ 返程航班資訊</span>
+                    <h3 class="font-bold text-sm mt-1">星宇航空 JX801</h3>
+                    <p class="text-xs text-slate-600 mt-1">搭乘利木津巴士直達成田機場第二航廈。</p>
+                    <p class="text-xs text-slate-500 mt-1">13:45 東京成田 (NRT) ➡ 16:55 台北 (TPE)</p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <!-- Floating Back to Top Button -->
-    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
-            class="fixed bottom-6 right-6 bg-maple-900 text-amber-100 w-11 h-11 rounded-full shadow-2xl flex items-center justify-center z-40 border border-ginkgo-500/40 hover:bg-maple-800 active:scale-95 transition">
-        <i class="fa-solid fa-arrow-up text-sm"></i>
-    </button>
-
     <script>
-        // Full Itinerary Data strictly sourced from user DOCX files
-        const itineraryData = [
-            {
-                day: "Overview",
-                label: "總覽",
-                title: "旅程資訊總覽與必備筆記",
-                subtitle: "航班、飯店細節與隨身資訊",
-                spots: [
-                    {
-                        id: "flight-info",
-                        time: "航班資訊",
-                        title: "星宇航空 Starlux JX800 / JX801",
-                        category: "交通",
-                        desc: "去程 11/23 (一) JX800: 08:25 台北(TPE) ➔ 12:35 成田(NRT T2)\n回程 11/30 (一) JX801: 13:45 成田(NRT T2) ➔ 16:55 台北(TPE)",
-                        mapsQuery: "Narita International Airport Terminal 2",
-                        notes: "請提前 2.5 小時抵達機場辦理登機。"
-                    },
-                    {
-                        id: "hotel-info",
-                        time: "全期住宿",
-                        title: "新宿華盛頓酒店 (新宿ワシントンホテル)",
-                        category: "住宿",
-                        desc: "地址：〒160-8336 東京都新宿区西新宿3-2-9\n英文：3-2-9, Nishishinjuku, Shinjuku-ku, Tokyo\n電話：+81-3-3343-3111",
-                        mapsQuery: "Shinjuku Washington Hotel",
-                        notes: "每日出發建議利用 JR 新宿站南口走地下道連接，步行約 8-10 分鐘。"
-                    }
-                ]
-            },
-            {
-                day: "Day 1",
-                label: "D1 11/23",
-                title: "Day 1: 11/23 (一) 抵達東京與首日交通",
-                subtitle: "星宇 JX800 ➔ 利木津/N'EX ➔ 東京都廳夜景",
-                spots: [
-                    {
-                        id: "d1-flight",
-                        time: "08:25-12:35",
-                        title: "搭乘星宇航空 JX800 抵達東京成田 T2",
-                        category: "交通",
-                        desc: "08:25 台北(TPE) 飛往 12:35 成田機場(NRT) 第二航廈。",
-                        mapsQuery: "Narita Airport Terminal 2"
-                    },
-                    {
-                        id: "d1-transport",
-                        time: "13:30-16:35",
-                        title: "成田機場至新宿交通 (利木津巴士 / N'EX)",
-                        category: "交通",
-                        desc: "利木津巴士 (3600日圓)：1F 入境大廳 17號月台購票。13:35➔15:40 (NO.20直達華盛頓) 或 14:40➔16:35 (NO.22直達)。\nN'EX 成田特快 (來回5000日圓/單程3330日圓)：13:17、13:48、14:23、14:49 發車，南口地下道直通飯店。",
-                        mapsQuery: "Shinjuku Washington Hotel",
-                        notes: "建議優先選直達華盛頓酒店的利木津巴士最為輕鬆。"
-                    },
-                    {
-                        id: "d1-checkin",
-                        time: "15:30-16:30",
-                        title: "飯店辦理入住 (Check-in) 稍作休息",
-                        category: "住宿",
-                        desc: "入住新宿華盛頓酒店，整理行裝與儲備體力。",
-                        mapsQuery: "Shinjuku Washington Hotel"
-                    },
-                    {
-                        id: "d1-tocho",
-                        time: "17:00-18:30",
-                        title: "東京都廳展望室 (都廳第一本廳舍 45F)",
-                        category: "景點",
-                        desc: "免費搭乘專用電梯直達 45 樓，俯瞰璀璨的新宿高樓夜景，感受東京繁華起點。",
-                        mapsQuery: "Tokyo Metropolitan Government Building Observation Decks",
-                        notes: "門票：免費參拜/觀景。"
-                    },
-                    {
-                        id: "d1-dinner",
-                        time: "19:00-20:30",
-                        title: "新宿西口/思出橫丁晚餐",
-                        category: "美食",
-                        desc: "品嚐懷舊懷古風格的思出橫丁串燒居酒屋，或百貨公司內精緻餐廳。",
-                        mapsQuery: "Omoide Yokocho"
-                    }
-                ]
-            },
-            {
-                day: "Day 2",
-                label: "D2 11/24",
-                title: "Day 2: 11/24 (二) 東大銀杏、上野紅楓與丸之內點燈",
-                subtitle: "黃金銀杏毯、不忍池紅楓與香檳金燈海",
-                spots: [
-                    {
-                        id: "d2-todai",
-                        time: "09:00-12:00",
-                        title: "第一站：東京大學（銀杏巡禮）",
-                        category: "景點",
-                        desc: "路線：彌生校區農正門 ➔ 工學院大銀杏 ➔ 安田講堂金色大道 ➔ 赤門。\n交通：都廳前站(E28大江戶線) ➔ 東大前站(N12南北線) 約24分鐘。",
-                        mapsQuery: "University of Tokyo Hongo Campus"
-                    },
-                    {
-                        id: "d2-lunch",
-                        time: "12:00-13:00",
-                        title: "午餐：安田講堂中央食堂",
-                        category: "美食",
-                        desc: "體驗日本第一學府學生食堂！推薦招牌「赤門拉麵 (Akamon Ramen)」。自動販賣機買食券取餐。",
-                        mapsQuery: "Central Refectory University of Tokyo"
-                    },
-                    {
-                        id: "d2-ueno",
-                        time: "14:30-18:30",
-                        title: "第二站：上野恩賜公園與阿美橫丁",
-                        category: "景點",
-                        desc: "14:30-16:00 上野公園不忍池畔賞紅楓倒影。\n16:00-18:30 阿美橫丁採買藥妝、二木菓子伴手禮並享用平價美食晚餐。\n交通：赤門步行20分至上野公園，或本鄉三丁目(E08)搭大江戶線至上野御徒町(E09)。",
-                        mapsQuery: "Ueno Park"
-                    },
-                    {
-                        id: "d2-marunouchi",
-                        time: "19:00-20:30",
-                        title: "第三站：丸之內仲通點燈 & KITTE 夜景",
-                        category: "景點",
-                        desc: "19:00-19:40 KITTE 百貨 6F 露天花園俯瞰東京車站百年紅磚建築。\n19:40-20:30 漫步丸之內仲通高雅的香檳金浪漫燈海。\n交通：JR 上野站搭山手線至 JR 東京站 (約15分鐘)。",
-                        mapsQuery: "KITTE Garden"
-                    },
-                    {
-                        id: "d2-return",
-                        time: "20:30-21:00",
-                        title: "回程：東京車站返回新宿",
-                        category: "交通",
-                        desc: "JR 東京站搭中央線(快速橘色) 直達 JR 新宿站南口，或搭丸之內線(M17➔M08)。",
-                        mapsQuery: "Shinjuku Station South Exit"
-                    }
-                ]
-            },
-            {
-                day: "Day 3",
-                label: "D3 11/25",
-                title: "Day 3: 11/25 (三) 強運小網神社、經典淺草與晴空塔",
-                subtitle: "洗錢洗運、晴空塔地標與天空企鵝",
-                spots: [
-                    {
-                        id: "d3-koami",
-                        time: "09:00-10:30",
-                        title: "第一站：人形町・小網神社（強運洗錢）",
-                        category: "景點",
-                        desc: "強運厄除與財運神社。於「錢洗弁財天」用竹籃將硬幣以神水洗滌作為幸運錢，並可選購蠶絲麻繭御守。\n交通：新宿搭都營新宿線至馬喰橫山，轉都營淺草線至人形町站，約25分鐘。\n順遊：水天宮 (步行7分鐘)。\n美食：柳屋鯛魚燒、重盛永壽堂人形燒。",
-                        mapsQuery: "Koami Shrine"
-                    },
-                    {
-                        id: "d3-asakusa",
-                        time: "10:45-13:30",
-                        title: "第二站：淺草寺・仲見世通・雷門",
-                        category: "景點",
-                        desc: "參拜東京最古老寺廟，拍大紅雷門提燈，逛250公尺仲見世通老街。\n交通：人形町搭都營淺草線至淺草站 (7分鐘)。\n順遊：隅田公園與 Sumida River Walk 河畔步道。\n美食：淺草今半壽喜燒/牛丼、花月堂巨無霸菠蘿麵包、淺草炸肉餅、絹豆腐布丁。",
-                        mapsQuery: "Senso-ji"
-                    },
-                    {
-                        id: "d3-skytree",
-                        time: "14:00-18:00",
-                        title: "第三站：東京晴空塔 & Solamachi",
-                        category: "景點",
-                        desc: "高634公尺地標，可購票登 350m/450m 展望台。順遊墨田水族館（看巨大企鵝水槽）與 Solamachi 購物中心（寶可夢中心、吉卜力）。\n交通：從淺草沿隅田川天橋步行15-20分鐘。\n美食：利久牛舌、六厘舍沾麵、祇園辻利抹茶。",
-                        mapsQuery: "Tokyo Skytree"
-                    },
-                    {
-                        id: "d3-aquarium",
-                        time: "18:30-20:00",
-                        title: "加碼亮點：池袋太陽城「陽光水族館」",
-                        category: "景點",
-                        desc: "前往池袋 Sunshine City 頂樓觀賞獨一無二的「天空企鵝」與海月空感水母區。\n交通：從押上搭乘電車至池袋站，再搭山手線輕鬆返回新宿。",
-                        mapsQuery: "Sunshine Aquarium"
-                    }
-                ]
-            },
-            {
-                day: "Day 4",
-                label: "D4 11/26",
-                title: "Day 4: 11/26 (四) 銀杏御苑森林、鐵塔與六本木雙夜景",
-                subtitle: "絕美御苑星巴克、古寺鐵塔與露天無遮蔽 Sky Deck",
-                spots: [
-                    {
-                        id: "d4-gyoen",
-                        time: "09:30-11:30",
-                        title: "第一站：新宿御苑 (門票 500日圓)",
-                        category: "景點",
-                        desc: "賞紅葉與金色銀杏大片交織景致，並打卡極具自然美感與建築特色的「星巴克新宿御苑店」。\n交通：飯店步行15-20分鐘至新宿門。",
-                        mapsQuery: "Shinjuku Gyoen National Garden"
-                    },
-                    {
-                        id: "d4-zojoji",
-                        time: "15:00-16:30",
-                        title: "第二站：增上寺與東京鐵塔（古今同框）",
-                        category: "景點",
-                        desc: "捕捉夕陽餘暉下，點亮華燈的東京鐵塔與百年古剎增上寺震撼同框照片。\n交通：新宿站(E01)搭乘大江戶線直達大門站(E20) (約20分鐘)。",
-                        mapsQuery: "Zojoji Temple"
-                    },
-                    {
-                        id: "d4-roppongi",
-                        time: "17:30-20:30",
-                        title: "第三站：六本木之丘 52F & Sky Deck 露天展望台",
-                        category: "景點",
-                        desc: "1. 登 52F 與頂樓無玻璃遮擋的露天 Sky Deck（票價約台幣370元，頂樓保暖第一），享 360 度俯瞰東京鐵塔最頂級夜景。\n2. 漫步櫸坂通 (Keyakizaka) 欣賞藍白色 LED 燈海襯托紅鐵塔。\n交通：大門站(E20)搭大江戶線至六本木站(E23)。\n美食：入鹿 TOKYO (柚子鹽味/牛肝菌醬油拉麵)。",
-                        mapsQuery: "Roppongi Hills Mori Tower"
-                    },
-                    {
-                        id: "d4-return",
-                        time: "20:30-21:00",
-                        title: "回程：六本木返回新宿華盛頓",
-                        category: "交通",
-                        desc: "六本木站(E23)搭乘都營大江戶線直達都廳前站(E28)，車程僅 10 分鐘！",
-                        mapsQuery: "Shinjuku Washington Hotel"
-                    }
-                ]
-            },
-            {
-                day: "Day 5",
-                label: "D5 11/27",
-                title: "Day 5: 11/27 (五) 湘南光影：鎌倉古都與江之島海色散策",
-                subtitle: "古都國寶大佛、長谷寺海景與江之島夕陽",
-                spots: [
-                    {
-                        id: "d5-train",
-                        time: "08:19-09:20",
-                        title: "新宿前往鎌倉交通",
-                        category: "交通",
-                        desc: "小急田快急 (08:07新宿 ➔ 09:08藤澤) 轉江之電至鎌倉 (09:54到)；\n或搭乘 JR 湘南新宿線直達列車：08:19 新宿(1/4月台) ➔ 09:19 鎌倉站 (直達車次 2527Y)。",
-                        mapsQuery: "Kamakura Station"
-                    },
-                    {
-                        id: "d5-kamakura",
-                        time: "09:30-12:30",
-                        title: "第一站：鎌倉車站、小町通與鶴岡八幡宮",
-                        category: "景點",
-                        desc: "逛小町通商店街與八幡宮參拜。\n美食推薦：豐島屋鴿子餅乾、Giraffa 咖哩麵包、鎌倉茶茶歐巴馬抹茶霜淇淋、Caraway 老字號咖哩飯、半月燒。",
-                        mapsQuery: "Tsurugaoka Hachimangu"
-                    },
-                    {
-                        id: "d5-hase",
-                        time: "12:40-14:40",
-                        title: "第二站：長谷站 (高德院鎌倉大佛 & 長谷寺)",
-                        category: "景點",
-                        desc: "1. 高德院鎌倉大佛 (門票 300日圓/胎內50日圓)：國寶級古蹟大佛。\n2. 鎌倉長谷寺 (門票 400日圓)：「見晴台」遠眺湘南海岸，參拜療癒地藏與弁財天洞窟。",
-                        mapsQuery: "Kamakura Daibutsu"
-                    },
-                    {
-                        id: "d5-slamdunk",
-                        time: "14:50-15:20",
-                        title: "第三站：鎌倉高校前 (灌籃高手平交道)",
-                        category: "景點",
-                        desc: "搭乘江之電至鎌倉高校前站，拍攝經典動漫平交道與湘南海岸海岸線車景。",
-                        mapsQuery: "Kamakurakōkō-Mae Station"
-                    },
-                    {
-                        id: "d5-enoshima",
-                        time: "15:30-19:00",
-                        title: "第四站：江之島與海邊夕陽",
-                        category: "景點",
-                        desc: "逛弁財天仲見世通老街 ➔ 搭電扶梯登頂中津宮 ➔ 稚兒之淵/海蝕平台看夕陽 (16:00前登頂) ➔ 江之島海蠟燭燈塔點燈。\n美食：朝日本店現壓章魚/大蝦仙貝、中村屋女夫饅頭、江之島魚見亭吻仔魚丼、江ノ島小屋金賞海鮮丼。",
-                        mapsQuery: "Enoshima"
-                    },
-                    {
-                        id: "d5-return",
-                        time: "19:12-20:28",
-                        title: "回程：片瀨江之島 / 藤澤返回新宿",
-                        category: "交通",
-                        desc: "小急田【片瀨江之島站】搭電車至藤澤轉快速急行 (19:12➔20:28抵達新宿)，或加購特急券搭乘浪漫特快 (19:39直達20:48)。",
-                        mapsQuery: "Shinjuku Station"
-                    }
-                ]
-            },
-            {
-                day: "Day 6",
-                label: "D6 11/28",
-                title: "Day 6: 11/28 (六) 明治神宮外苑、豪德寺招財貓與澀谷",
-                subtitle: "震撼黃金銀杏並木、滿山招財貓與冬之櫻點燈",
-                spots: [
-                    {
-                        id: "d6-gaien",
-                        time: "09:00-10:30",
-                        title: "第一站：明治神宮外苑銀杏並木",
-                        category: "景點",
-                        desc: "漫步整齊劃一的絕美黃金銀杏隧道，並順遊隈研吾設計的新國立競技場外圍。\n交通：都廳前站(E28)搭大江戶線至青山一丁目站(E24) (10分鐘)。",
-                        mapsQuery: "Meiji Jingu Gaien Ginkgo Avenue"
-                    },
-                    {
-                        id: "d6-gotokuji",
-                        time: "11:00-13:00",
-                        title: "第二站：豪德寺 (Gotokuji Temple)",
-                        category: "景點",
-                        desc: "參觀招福殿龐大且療癒的招財貓海與三重塔 (參拜免費，想買招財貓請在16:00前抵達)。\n交通：青山一丁目(Z03半藏門線)搭至表參道(Z02)，轉千代田線/小田急線直通車至豪德寺站(OH10)下車步行10分鐘。",
-                        mapsQuery: "Gotokuji Temple"
-                    },
-                    {
-                        id: "d6-shibuya",
-                        time: "14:00-19:00",
-                        title: "第三站：澀谷 (Shibuya) 或中目黑散策",
-                        category: "景點",
-                        desc: "【方案 A 澀谷】SHIBUYA SKY 展望台、宮下公園、十字路口與百貨逛街買伴手禮。\n【方案 B 中目黑】目黑川粉紅 LED「冬之櫻」點燈、星巴克臻選®東京烘焙工坊與 AFURI 柚子鹽拉麵。\n交通：豪德寺搭小田急至下北澤，轉京王井之頭線直達澀谷站。",
-                        mapsQuery: "Shibuya Crossing"
-                    }
-                ]
-            },
-            {
-                day: "Day 7",
-                label: "D7 11/29",
-                title: "Day 7: 11/29 (日) 小江戶川越散策 (平日彈性調整)",
-                subtitle: "江戶古剎喜多院、釣鯛魚神籤與藏造老街",
-                spots: [
-                    {
-                        id: "d7-transport",
-                        time: "08:30-09:30",
-                        title: "新宿前往川越交通指南",
-                        category: "交通",
-                        desc: "推薦路線：JR 新宿站搭埼京線/湘南新宿線至【池袋站】(6分鐘)，站內轉乘【東武東上線】急行列車直達【川越站】(約30分鐘)，全程約40分鐘內抵達且班次極多！\n西武特急路線：西武新宿站搭乘小江戶號至本川越站 (約45分鐘)。",
-                        mapsQuery: "Kawagoe Station"
-                    },
-                    {
-                        id: "d7-kitain",
-                        time: "09:30-11:00",
-                        title: "第一站：喜多院 (Kita-in)",
-                        category: "景點",
-                        desc: "川越古剎，保存全日本唯一江戶城移築遺構「德川家光誕生間」與華麗天井畫，境內設有五百羅漢石雕像。",
-                        mapsQuery: "Kitain"
-                    },
-                    {
-                        id: "d7-hikawa",
-                        time: "11:15-12:40",
-                        title: "第二站：川越冰川神社",
-                        category: "景點",
-                        desc: "1500年歷史結緣神社！必體驗用小釣竿「釣鯛魚神籤」、走過木造大鳥居與繪馬隧道，並進行小川「人形流」除穢儀式。",
-                        mapsQuery: "Kawagoe Hikawa Shrine"
-                    },
-                    {
-                        id: "d7-street",
-                        time: "13:00-17:00",
-                        title: "第三站：菓子屋橫丁、藏造老街與大正浪漫夢通",
-                        category: "美食",
-                        desc: "1. 藏造老街地標「時之鐘」與星巴克川越鐘樓店。\n2. 美食：小川菊 200年鰻魚飯 (建議先領號碼牌)、翠扇亭地瓜三角飯糰、COEDO HACHI 烤地瓜布蕾、小江戶 OHANA 玉子燒。\n3. 菓子屋橫丁採買黑糖棒與懷古仙貝。",
-                        mapsQuery: "Kawagoe Kurazukuri Zone"
-                    }
-                ]
-            },
-            {
-                day: "Day 8",
-                label: "D8 11/30",
-                title: "Day 8: 11/30 (一) 新宿最後採買與順利返航",
-                subtitle: "新宿藥妝補貨 ➔ 星宇 JX801 ➔ 台北溫馨的家",
-                spots: [
-                    {
-                        id: "d8-shopping",
-                        time: "09:00-10:30",
-                        title: "新宿站周邊最後大採買",
-                        category: "購物",
-                        desc: "退房後將行李寄放飯店，於新宿南口/西口藥妝店、Bic Camera 採購伴手禮。",
-                        mapsQuery: "Shinjuku Station"
-                    },
-                    {
-                        id: "d8-to-airport",
-                        time: "10:40-12:15",
-                        title: "前往成田機場 T2 (利木津巴士 / N'EX)",
-                        category: "交通",
-                        desc: "搭乘利木津巴士或 N'EX 成田特快前往成田機場第二航廈，預計 12:15 前抵達辦理登機與退稅。",
-                        mapsQuery: "Narita Airport Terminal 2"
-                    },
-                    {
-                        id: "d8-flight",
-                        time: "13:45-16:55",
-                        title: "搭乘星宇航空 JX801 返回台北 (TPE)",
-                        category: "交通",
-                        desc: "13:45 成田機場(NRT) 起飛 ➔ 16:55 抵達桃園國際機場(TPE)，結束豐富美好的東京秋日之旅！",
-                        mapsQuery: "Taiwan Taoyuan International Airport"
-                    }
-                ]
-            }
-        ];
+        function switchDay(dayId) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => tab.classList.remove('tab-active'));
+            event.currentTarget.classList.add('tab-active');
 
-        // State
-        let currentTab = "Day 1";
-        let checkedSpots = JSON.parse(localStorage.getItem('tokyo_autumn_2026_checks') || '{}');
-
-        // Helpers
-        function getCategoryBadge(cat) {
-            switch(cat) {
-                case '景點': return 'bg-maple-100 text-maple-800 border-maple-200';
-                case '美食': return 'bg-amber-100 text-amber-900 border-amber-300';
-                case '交通': return 'bg-blue-100 text-blue-800 border-blue-200';
-                case '購物': return 'bg-emerald-100 text-emerald-800 border-emerald-200';
-                case '住宿': return 'bg-purple-100 text-purple-800 border-purple-200';
-                default: return 'bg-gray-100 text-gray-800 border-gray-200';
-            }
-        }
-
-        function renderTabs() {
-            const tabsContainer = document.getElementById('dayTabs');
-            tabsContainer.innerHTML = itineraryData.map(item => `
-                <button onclick="switchTab('${item.day}')" 
-                        class="px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 border ${
-                            currentTab === item.day 
-                            ? 'bg-maple-800 text-amber-100 border-maple-900 shadow-md scale-105' 
-                            : 'bg-white/80 text-gray-700 border-amber-200 hover:bg-amber-100'
-                        }">
-                    ${item.label}
-                </button>
-            `).join('');
-        }
-
-        function switchTab(dayKey) {
-            currentTab = dayKey;
-            renderTabs();
-            renderContent();
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
-        function toggleCheck(id) {
-            checkedSpots[id] = !checkedSpots[id];
-            localStorage.setItem('tokyo_autumn_2026_checks', JSON.stringify(checkedSpots));
-            renderContent();
-        }
-
-        function resetCheckmarks() {
-            if (confirm('確定要清空所有景點的完成勾選狀態嗎？')) {
-                checkedSpots = {};
-                localStorage.removeItem('tokyo_autumn_2026_checks');
-                renderContent();
-            }
-        }
-
-        function handleSearch() {
-            const query = document.getElementById('searchInput').value.trim().toLowerCase();
-            if (!query) {
-                renderContent();
-                return;
-            }
-
-            const contentArea = document.getElementById('contentArea');
-            let results = [];
-
-            itineraryData.forEach(dayItem => {
-                dayItem.spots.forEach(spot => {
-                    if (spot.title.toLowerCase().includes(query) || 
-                        spot.desc.toLowerCase().includes(query) || 
-                        spot.category.toLowerCase().includes(query)) {
-                        results.push({ ...spot, dayLabel: dayItem.label });
-                    }
-                });
+            const cards = document.querySelectorAll('.day-card');
+            cards.forEach(card => {
+                if (dayId === 'all' || card.getAttribute('data-day') === dayId) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
             });
-
-            if (results.length === 0) {
-                contentArea.innerHTML = `
-                    <div class="text-center py-12 text-gray-500">
-                        <i class="fa-solid fa-feather text-3xl mb-2 text-amber-300"></i>
-                        <p class="text-xs">找不到與「${query}」相關的景點資訊</p>
-                    </div>`;
-                return;
-            }
-
-            contentArea.innerHTML = `
-                <div class="text-xs font-semibold text-gray-500 mb-2">搜尋結果 (${results.length})：</div>
-                <div class="space-y-3">
-                    ${results.map(spot => renderSpotCard(spot, true)).join('')}
-                </div>
-            `;
         }
 
-        function renderSpotCard(spot, showDayBadge = false) {
-            const isChecked = !!checkedSpots[spot.id];
-            const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(spot.mapsQuery || spot.title)}`;
+        document.getElementById('searchBtn').addEventListener('click', () => {
+            const searchBar = document.getElementById('searchBar');
+            searchBar.classList.toggle('hidden');
+        });
 
-            return `
-                <div class="bg-white rounded-2xl p-3.5 shadow-sm border border-amber-200/70 transition relative overflow-hidden ${isChecked ? 'bg-amber-50/60' : ''}">
-                    <div class="absolute left-0 top-0 bottom-0 w-1.5 ${isChecked ? 'bg-gray-300' : 'bg-ginkgo-600'}"></div>
-                    
-                    <div class="flex items-start justify-between gap-2">
-                        <div class="flex items-center gap-2">
-                            <input type="checkbox" 
-                                   onchange="toggleCheck('${spot.id}')" 
-                                   ${isChecked ? 'checked' : ''} 
-                                   class="w-4 h-4 text-maple-800 rounded focus:ring-maple-800 border-gray-300 cursor-pointer">
-                            <span class="text-xs font-bold text-ginkgo-700 font-mono">${spot.time}</span>
-                            ${showDayBadge ? `<span class="text-[10px] bg-amber-100 text-amber-900 px-1.5 py-0.5 rounded">${spot.dayLabel}</span>` : ''}
-                        </div>
-                        <span class="text-[10px] px-2 py-0.5 rounded-full font-medium border ${getCategoryBadge(spot.category)}">
-                            ${spot.category}
-                        </span>
-                    </div>
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.day-card');
 
-                    <div class="mt-2 pl-6">
-                        <h3 class="font-bold text-sm text-gray-900 ${isChecked ? 'line-through-checked' : ''}">
-                            ${spot.title}
-                        </h3>
-                        <p class="text-xs text-gray-600 mt-1 whitespace-pre-line leading-relaxed ${isChecked ? 'line-through-checked' : ''}">
-                            ${spot.desc}
-                        </p>
-
-                        ${spot.notes ? `
-                            <div class="mt-2 text-[11px] bg-amber-50 text-amber-900 p-2 rounded-xl border border-amber-200/80 flex items-start gap-1.5">
-                                <i class="fa-solid fa-circle-info text-amber-600 mt-0.5"></i>
-                                <span>${spot.notes}</span>
-                            </div>
-                        ` : ''}
-
-                        <div class="mt-3 flex items-center gap-2 pt-2 border-t border-amber-100">
-                            <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" 
-                               class="inline-flex items-center gap-1.5 text-[11px] text-blue-700 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition font-medium border border-blue-200">
-                                <i class="fa-solid fa-map-pin text-blue-600"></i> Google 地圖導航
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderContent() {
-            const searchVal = document.getElementById('searchInput').value.trim();
-            if (searchVal) {
-                handleSearch();
-                return;
-            }
-
-            const currentDayData = itineraryData.find(item => item.day === currentTab);
-            const contentArea = document.getElementById('contentArea');
-
-            if (!currentDayData) return;
-
-            contentArea.innerHTML = `
-                <div class="bg-gradient-to-r from-maple-900 to-maple-800 text-amber-50 p-4 rounded-2xl shadow-md mb-3 border border-maple-700">
-                    <h2 class="font-serif font-bold text-base text-amber-100">${currentDayData.title}</h2>
-                    <p class="text-xs text-ginkgo-100 mt-1">${currentDayData.subtitle}</p>
-                </div>
-
-                <div class="space-y-3">
-                    ${currentDayData.spots.map(spot => renderSpotCard(spot)).join('')}
-                </div>
-            `;
-        }
-
-        window.onload = function() {
-            renderTabs();
-            renderContent();
-        };
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
     </script>
 </body>
 </html>
