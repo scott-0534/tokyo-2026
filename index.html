@@ -42,8 +42,12 @@
             font-family: 'Noto Sans TC', sans-serif;
             background-color: #F8F9FA;
             -webkit-tap-highlight-color: transparent;
-        }
-        .hide-scrollbar::-webkit-scrollbar {
+            font-size: 15px; /* 👈 新增這行，全站文字基礎大小會整體放大！ */
+            }
+            /* 讓小字體同步升級 */
+            .text-xs { font-size: 0.85rem !important; line-height: 1.35rem !important; }
+            .text-sm { font-size: 0.95rem !important; line-height: 1.45rem !important; }
+            .hide-scrollbar::-webkit-scrollbar {
             display: none;
         }
         .hide-scrollbar {
